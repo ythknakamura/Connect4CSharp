@@ -1,5 +1,8 @@
 namespace Connect4CSharp{
 
+    /// <summary>
+    /// 座標を管理する構造体
+    /// </summary>
     struct Point{
         public int X{get; private set;}
         public int Y{get; private set;}
@@ -16,6 +19,9 @@ namespace Connect4CSharp{
         }
     }
 
+    /// <summary>
+    /// 色を表す列挙型
+    /// </summary>
     enum Color{Empty, Blue, Yellow, Wall}
     static partial class ColorEnum{
         public static Color Opposite(this Color color){

@@ -78,4 +78,4 @@ private Direction checkMobility(int px, int py, Stone stone) {
 
 ## 2.12
 * Connect4ではPointを文字から作る機会はない。
-* 
+* 動作確認用のコードは`Program.cs`に書いてみた。

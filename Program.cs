@@ -1,15 +1,24 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace Connect4CSharp{
     class Program{
         static void Main(){
+            Debug.Assert(Board.WIDTH<=26, "盤面の幅が大きすぎる");
+            Debug.Assert(Board.HEIGHT<=9, "盤面の高さが大きすぎる");
             TestPlay();
         }
 
+
+        /// <summary>
+        /// 全てが手動のテストプレイ
+        /// </summary>
         static void TestPlay(){
             ConsoleBoard board = new ConsoleBoard();
             string message = "";
+
             while(true){
+                // 盤面を表示して、勝敗判定。直前のエラーメッセージも表示
                 Console.Clear();
                 if(message != ""){
                     Console.WriteLine($"### {message}");
@@ -30,6 +39,7 @@ namespace Connect4CSharp{
                         return;
                 }
                 
+                // 次の一手を受け付け
                 Console.WriteLine($"第{board.Turns+1}手 : {board.CurrentColor.ToConsoleString()}の手番");
                 Console.WriteLine("どこに置く？ ( U:待った  Q:終了 )");
                 
