@@ -1,3 +1,4 @@
+# 第2章
 ## 2.1
 
 #### Point 《盤面の座標》
@@ -79,3 +80,36 @@ private Direction checkMobility(int px, int py, Stone stone) {
 ## 2.12
 * Connect4ではPointを文字から作る機会はない。
 * 動作確認用のコードは`Program.cs`に書いてみた。
+
+
+# 第6章?
+とりあえず、動かないとプログラミングしにくいので、本の順序を変更し、Playerから実装する。
+
+## 6.1
+人間とAIのプレイヤーを抽象化して、インタフェース`IPlayer`を定義する。`IPlayer`は盤面をもとに、次の一手を決定する`OnTurn`メソッドを持つ。
+```csharp
+interface IPlayer{
+    public Action OnTurn(Board board);
+}
+```
+本のC++では`IPlayer`の代わりに`Player`クラスを使っているが、インタフェースの方が適切である。C#の命名規則に則って`I`を先頭につけている。
+
+本ではPlayerが`void OnTurn(Board board)`メソッドにて、ゲーム終了などの分岐処理を例外を使っているが、これは不適切である。例外は予期せぬエラーを扱うものであり、プログラムの制御を変えるものではない。そこで、動作を報告する`Action`列挙型を`Utils.cs`に作り、`OnTurn`の戻り値を`Action`に変更する。
+
+IPlayer実装するクラスは`HumanPlayer`と`AIPlayer`である。`HumanPlayer`はコンソールから入力を受け取る。`AIPlayer`は`AI`クラスをのインスタンを持ち、`AI`の指示に従って手を打つ。
+
+`AI`は抽象クラスとして定義する。本とは異なり、自分の色`MyColor`も保持するようにした。動作確認用のAIとして、打てる場所へランダムに打つAI`RandomAI`と、ほとんどランダムだけど、次手で勝てる時だけ勝ちに行くAI`WeakestAI`をまず作成する。次手の勝利を確認する方法は単純である。とりあえず打ち、勝敗を確認し、勝っていればその手を打つ。勝っていなければ、待ったをして、違う手を打ってみる、というのを全ての手で試す方法である。
+
+```csharp
+public override void Move(Board board){
+    var pos = board.GetMovablePos();
+        foreach(int x in pos){
+            board.Move(x);
+            if(board.CheckWinner() == MyColor){
+                return;
+            }
+            board.Undo();
+        }
+    board.Move(pos[random.Next(pos.Count)]);
+}
+```

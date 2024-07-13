@@ -13,8 +13,8 @@ namespace Connect4CSharp{
 
         public override string ToString(){
             string str = "";
-            str.Append( (char)('a' + X - 1));
-            str.Append( (char)('1' + Y - 1));
+            str += (char)('a' + X - 1);
+            str += (char)('1' + Y - 1);
             return str;
         }
     }
@@ -39,6 +39,11 @@ namespace Connect4CSharp{
             }
         }
     }
+
+    /// <summary>
+    /// Playerの行動を表す列挙型
+    /// </summary>
+    enum Action{MOVE, UNDO, QUIT}
 
     [Flags]
     enum Direction {
