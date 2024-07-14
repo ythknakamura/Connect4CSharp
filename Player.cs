@@ -9,7 +9,7 @@ namespace Connect4CSharp{
             this.ai = ai;
         }
         public Action OnTurn(Board board){
-            Console.WriteLine("AIの思考中...");
+            Console.WriteLine("AIが思考中...");
             ai.Move(board);
             return Action.MOVE;
         }

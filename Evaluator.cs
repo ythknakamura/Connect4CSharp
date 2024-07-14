@@ -4,7 +4,7 @@ namespace Connect4CSharp{
     /// </summary>
     interface IEvaluator{
         /// <summary>
-        /// 盤面
+        /// 盤面を評価
         /// </summary>
         /// <param name="board">評価対象の盤面</param>
         /// <returns>評価値</returns>
