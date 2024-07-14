@@ -12,8 +12,8 @@ namespace Connect4CSharp{
         static void Play(){
             ConsoleBoard board = new ConsoleBoard();
             IPlayer[] players = new IPlayer[2];
-            players[0] = new AIPlayer(new RandomAI(Color.Blue));
-            players[1] = new AIPlayer(new WeakestAI(Color.Yellow));
+            players[0] = new HumanPlayer();
+            players[1] = new AIPlayer(new NextMoveAI());
             while(true){
                 Console.Clear();
                 int currentPlayerIdx = board.CurrentColor == Color.Blue ? 0 : 1;
@@ -50,7 +50,7 @@ namespace Connect4CSharp{
                 }
                 else if(action == Action.UNDO){
                     //次の相手が人間ではないなら、待ったは2連続で行う。
-                    if(typeof(HumanPlayer).IsInstanceOfType(players[board.CurrentColor == Color.Blue ? 0 : 1])){
+                    if(typeof(HumanPlayer).IsInstanceOfType(players[1-currentPlayerIdx])){
                         board.Undo();
                     }
                     continue;

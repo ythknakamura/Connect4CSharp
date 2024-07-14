@@ -15,8 +15,26 @@ namespace Connect4CSharp{
         }
     }
     class HumanPlayer : IPlayer{
+        private IEvaluator evaluator;
+        public HumanPlayer(){
+            evaluator = new PatternEvaluator();
+        }
+        
         public Action OnTurn(Board board){
             while(true){
+                //次の評価値を表示
+                var xeList = board.GetMovablePos()
+                    .Select(x =>{
+                        board.Move(x);
+                        int e = -evaluator.Evaluate(board);
+                        board.Undo();
+                        return (x, e);})
+                    .OrderByDescending(xe=>xe.e);
+                foreach(var (x, e) in xeList){
+                    Console.WriteLine($"{(char)('a'+x-1)} : {e}");
+                }
+                
+                // 入力受け付け
                 Console.WriteLine("どこに置く？ ( U:待った  Q:終了 )");
                 char input = Console.ReadKey().KeyChar;
                 if(input == 'Q'){

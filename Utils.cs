@@ -1,21 +1,16 @@
 namespace Connect4CSharp{
-
     /// <summary>
     /// 座標を管理する構造体
     /// </summary>
-    struct Point{
-        public int X{get; private set;}
-        public int Y{get; private set;}
+    readonly struct Point{
+        public readonly int X;
+        public readonly int Y;
         public Point(int x, int y){
             X = x;
             Y = y;
         }
-
         public override string ToString(){
-            string str = "";
-            str += (char)('a' + X - 1);
-            str += (char)('1' + Y - 1);
-            return str;
+            return (char)('a' + X - 1) +Y.ToString();
         }
     }
 
@@ -25,18 +20,18 @@ namespace Connect4CSharp{
     enum Color{Empty, Blue, Yellow, Wall}
     static partial class ColorEnum{
         public static Color Opposite(this Color color){
-            switch(color){
-                case Color.Blue:   return Color.Yellow;
-                case Color.Yellow: return Color.Blue;
-                default:           return color;
-            }
+            return color switch{
+                Color.Blue => Color.Yellow,
+                Color.Yellow => Color.Blue,
+                _ => Color.Empty
+            };
         }
         public static string ToConsoleString(this Color color){
-            switch(color){
-                case Color.Blue:   return "🔵";
-                case Color.Yellow: return "🟡";
-                default:           return "⬜️";
-            }
+            return color switch{
+                Color.Blue => "🔵",
+                Color.Yellow => "🟡",
+                _ => "⬜️"
+            };
         }
     }
 

@@ -128,9 +128,8 @@ namespace Connect4CSharp{
         /// <summary>
         /// 指定した座標の色を取得
         /// </summary>
-        /// <param name="point">座標</param>
-        public Color GetColor(Point point){
-            return rawBoard[point.X, point.Y];;
+        public Color GetColor(int x, int y){
+            return rawBoard[x, y];
         }
 
         /// <summary>
@@ -150,7 +149,7 @@ namespace Connect4CSharp{
         /// <summary>
         /// 指定した列に石を置けるかどうか
         /// </summary>
-        /// <param name="x"></param>
+        /// <param name="x">列を表すx座標</param>
         private bool CheckMobility(int x){
             return rawBoard[x,1] == Color.Empty;
         }
