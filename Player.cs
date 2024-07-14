@@ -1,6 +1,7 @@
 namespace Connect4CSharp{
     interface IPlayer{
         public Action OnTurn(Board board);
+        public string Message {get;}
     }
 
     class AIPlayer :IPlayer{
@@ -8,6 +9,8 @@ namespace Connect4CSharp{
         public AIPlayer(AI ai){
             this.ai = ai;
         }
+
+        public string Message => ai.Message;
         public Action OnTurn(Board board){
             Console.WriteLine("AIが思考中...");
             ai.Move(board);
@@ -19,7 +22,7 @@ namespace Connect4CSharp{
         public HumanPlayer(){
             evaluator = new PatternEvaluator();
         }
-        
+        public string Message => "";
         public Action OnTurn(Board board){
             while(true){
                 //次の評価値を表示

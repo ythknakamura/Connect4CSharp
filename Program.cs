@@ -12,8 +12,9 @@ namespace Connect4CSharp{
         static void Play(){
             ConsoleBoard board = new ConsoleBoard();
             IPlayer[] players = new IPlayer[2];
-            players[0] = new HumanPlayer();
-            players[1] = new AIPlayer(new NextMoveAI());
+            //players[0] = new HumanPlayer();
+            players[1] = new AIPlayer(new NegamaxAI());
+            players[0] = new AIPlayer(new NextMoveAI());
             while(true){
                 Console.Clear();
                 int currentPlayerIdx = board.CurrentColor == Color.Blue ? 0 : 1;
@@ -23,6 +24,9 @@ namespace Connect4CSharp{
                     Point lastP = board.GetUpdate();
                     Console.WriteLine($"前回の手 : {lastP}");
                 }
+
+                // メッセージを表示
+                Console.WriteLine(players[1-currentPlayerIdx].Message);
 
                 // 盤面を表示して、勝敗判定。
                 Console.WriteLine();
@@ -50,7 +54,7 @@ namespace Connect4CSharp{
                 }
                 else if(action == Action.UNDO){
                     //次の相手が人間ではないなら、待ったは2連続で行う。
-                    if(typeof(HumanPlayer).IsInstanceOfType(players[1-currentPlayerIdx])){
+                    if(!typeof(HumanPlayer).IsInstanceOfType(players[1-currentPlayerIdx])){
                         board.Undo();
                     }
                     continue;

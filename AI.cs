@@ -15,6 +15,21 @@ namespace Connect4CSharp{
         /// </summary>
         public abstract string Name {get;} 
 
+        /// <summary>
+        /// AIからのメッセージ
+        /// </summary>
+        public string Message => $"評価回数:{evalCount}";
+
+        private IEvaluator evaluator = new PatternEvaluator();
+
+        private int evalCount = 0;
+        protected void ResetEvalCount(){
+            evalCount = 0;
+        }
+        protected int Evaluate(Board board){
+            evalCount++;
+            return evaluator.Evaluate(board);
+        }
     }
 
 
@@ -25,6 +40,7 @@ namespace Connect4CSharp{
         private readonly Random random = new();
         public override string Name => "RandomAI";
         public override void Move(Board board){
+            ResetEvalCount();
             var pos = board.GetMovablePos();
             int x = pos[random.Next(pos.Count)];
             board.Move(x);
@@ -38,6 +54,7 @@ namespace Connect4CSharp{
         private readonly Random random = new();
         public override string Name => "WeakestAI";
         public override void Move(Board board){
+            ResetEvalCount();
             Color myColor = board.CurrentColor;
             var pos = board.GetMovablePos();
             foreach(int x in pos){
@@ -55,13 +72,13 @@ namespace Connect4CSharp{
     /// 次の手で最も評価値が高くなる手を選ぶAI
     /// </summary>
     class NextMoveAI:AI{
-        private readonly IEvaluator evaluator = new PatternEvaluator();
         public override string Name => "NextMoveAI";
         public override void Move(Board board){
+            ResetEvalCount();
             var xeList = board.GetMovablePos()
                 .Select(x =>{
                     board.Move(x);
-                    int e = -evaluator.Evaluate(board);
+                    int e = -Evaluate(board);
                     board.Undo();
                     return (x, e);});
             int x = xeList.MaxBy(xe=>xe.e).x;
