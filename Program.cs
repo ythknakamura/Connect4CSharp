@@ -7,14 +7,15 @@ namespace Connect4CSharp{
             Debug.Assert(Board.HEIGHT<=9, "盤面の高さが大きすぎる");
             //TestPlay();
             Play();
+            //new TestAI().Test();
         }
 
         static void Play(){
             ConsoleBoard board = new ConsoleBoard();
-            IPlayer[] players = new IPlayer[2];
-            //players[0] = new HumanPlayer();
-            players[1] = new AIPlayer(new NegamaxAI());
-            players[0] = new AIPlayer(new NextMoveAI());
+            IPlayer[] players = new IPlayer[2]{
+                new HumanPlayer(),
+                new AIPlayer(new NegaAlphaAI2())
+            };
             while(true){
                 Console.Clear();
                 int currentPlayerIdx = board.CurrentColor == Color.Blue ? 0 : 1;

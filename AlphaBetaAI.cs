@@ -5,7 +5,6 @@ namespace Connect4CSharp{
         private const int infinity = 1<<30;
         public override void Move(Board board){
             int xBest = 0;
-            int evalMax = -infinity;
             int alpha = -infinity;
             int beta = infinity;
             ResetEvalCount();
@@ -13,8 +12,8 @@ namespace Connect4CSharp{
                 board.Move(x);
                 int eval = MinLevel(board, maxDepth, alpha, beta);
                 board.Undo();
-                if(evalMax < eval){
-                    evalMax = eval;
+                if(alpha < eval){
+                    alpha = eval;
                     xBest = x;
                 }
             }

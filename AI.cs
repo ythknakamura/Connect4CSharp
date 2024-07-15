@@ -37,7 +37,7 @@ namespace Connect4CSharp{
     /// ランダムに手を選ぶAI
     /// </summary>
     class RandomAI : AI{
-        private readonly Random random = new();
+        private readonly Random random = new(192);
         public override string Name => "RandomAI";
         public override void Move(Board board){
             ResetEvalCount();
